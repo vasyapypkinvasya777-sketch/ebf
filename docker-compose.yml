@@ -1,0 +1,27 @@
+services:
+  ebpf_exporter:
+    # Use the prebuilt image that already includes examples
+    image: ghcr.io/cloudflare/ebpf_exporter:latest
+    privileged: true
+    ports:
+      - "9435:9435"
+    command:
+      - --config.dir=examples
+      - --config.names=timers
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+
+    # If you prefer to build locally with examples baked in, uncomment:
+    # build:
+    #   context: .
+    #   target: ebpf_exporter_with_examples
+
+    # If you want to use the locally checked-out examples (instead of bundled), uncomment:
+    # volumes:
+    #   - ./examples:/examples:ro
+    #   - /sys/fs/cgroup:/sys/fs/cgroup:ro
+
+    # On systems with AppArmor/SELinux that block BPF, you may need to uncomment:
+    # security_opt:
+    #   - apparmor:unconfined
+    #   - label:disable
