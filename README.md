@@ -193,8 +193,16 @@ Execution of eBPF programs requires kernel data types normally available
 in `/sys/kernel/btf/vmlinux`, which is created during kernel build process.
 However, on some older kernel configurations, this file might not be available.
 If that's the case, an external BTF file can be supplied with `--btf.path`.
-An archive of BTFs for all some older distros and kernel versions can be
-found [here](https://github.com/aquasecurity/btfhub-archive).
+An archive of BTFs for many older distros and kernel versions can be
+found here: https://github.com/aquasecurity/btfhub-archive
+
+### docker-compose quick fix
+
+If your logs show missing kernel BTF (e.g. `kernel BTF is missing at /sys/kernel/btf/vmlinux`):
+
+- Create `btf/` in the repo root and place a matching `vmlinux.btf` file there.
+- Ensure `docker-compose.yml` mounts `./btf:/btf:ro` and passes `--btf.path=/btf/vmlinux.btf`.
+- Restart: `docker compose up -d --force-recreate`
 
 ## Supported scenarios
 

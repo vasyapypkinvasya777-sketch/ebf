@@ -8,8 +8,13 @@ services:
     command:
       - --config.dir=examples
       - --config.names=timers
+      - --btf.path=/btf/vmlinux.btf
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      # If /sys/kernel/btf does not exist on host, comment it out and mount external BTF below
+      # - /sys/kernel/btf:/sys/kernel/btf:ro
+      # Mount an external BTF file (download from btfhub-archive) to /btf/vmlinux.btf:
+      - ./btf:/btf:ro
 
     # If you prefer to build locally with examples baked in, uncomment:
     # build:
